@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
+    <div id="editpost">
+        <a href="{% url 'edit_post' post_id=post.id %}"><input type="button" value="edit post"></a>
+    </div>
     <h1>{{ post.title }}</h1>
     <h3>Published {{ post.publish }} by {{ post.author }}</h3>
     <p>{{ post.body }}</p>

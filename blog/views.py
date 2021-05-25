@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from .models import Post
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegistrationForm, AddPost
+from .forms import LoginForm, UserRegistrationForm, AddPost, EditPost
+from django.utils import timezone
 
 
 def detail_view(request, slug, id):
@@ -56,3 +57,25 @@ def add_post(request):
     else:
         form = AddPost()
     return render(request, 'add_post.html', {'form': form})
+
+
+@login_required
+def edit_post(request, post_id):
+    try:
+        post = get_object_or_404(Post, id=post_id)
+    except BaseException:
+        return HttpResponse('<h1>Oops something happened<h1>')
+    if post.author != request.user:
+        return HttpResponse('<h2>You can`t edit this post because you aren`t an author')
+    if request.method == 'POST':
+        print(request.POST)
+        form = EditPost(request.POST)
+        if form.is_valid():
+            post.title = request.POST.__getitem__('title')
+            post.body = request.POST.__getitem__('body')
+            post.publish = timezone.now()
+            post.save()
+            return HttpResponse('<h1>Post successfully changed.<h1>')
+        return HttpResponse('<h1>Form is invalid<h1>')
+    else:
+        return render(request, 'edit_post.html', {'form': EditPost})

@@ -27,3 +27,8 @@ class AddPost(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title', 'body')
+
+
+class EditPost(forms.Form):
+    title = forms.CharField(max_length=255)
+    body = forms.CharField(widget=forms.Textarea)

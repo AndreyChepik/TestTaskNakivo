@@ -3,6 +3,9 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    <div id="postadd" style="text-align:right;">
+        <a href="{% url 'add_post' %}"><input type="button" value="add post"></a>
+    </div>
     <h1>Dashboard</h1>
     <p>Welcome to your dashboard.</p>
     {% for post in posts %}
