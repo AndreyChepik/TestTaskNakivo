@@ -24,7 +24,7 @@ class AddPost(forms.ModelForm):
     """Model form based on model Post. Lets user to add post"""
     class Meta:
         model = Post
-        fields = ('title', 'body')
+        fields = ('title', 'slug', 'body')
 
 
 class EditPost(forms.Form):

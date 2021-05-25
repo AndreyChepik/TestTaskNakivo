@@ -9,13 +9,13 @@ class Post(models.Model):
     """This is Post model. It stores posts and authors are User models instances.
     Foreign key connects User and Post tables"""
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, default=title, unique=id)
+    slug = models.SlugField(max_length=255, unique=id)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now())
 
     class Meta:
-        ordering = ('publish', )
+        ordering = ('-publish', )
 
     def __str__(self):
         return self.title
