@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from .models import Post
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegistrationForm, AddPost, EditPost
+from .forms import LoginForm, UserRegistrationForm, AddPost, EditPost, SearchForm
 from django.utils import timezone
+from django.contrib.postgres.search import SearchVector
 
 
 def detail_view(request, slug, id):
@@ -79,3 +80,16 @@ def edit_post(request, post_id):
         return HttpResponse('<h1>Form is invalid<h1>')
     else:
         return render(request, 'edit_post.html', {'form': EditPost})
+
+def post_search(request):
+    form = SearchForm
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            results = Post.objects.annotate(
+                search=SearchVector('title', 'body'),
+            ).filter(search=query)
+    return render(request, 'search.html', {'form': form, 'query': query, 'results': results})

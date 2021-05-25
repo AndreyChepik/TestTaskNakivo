@@ -32,3 +32,6 @@ class AddPost(forms.ModelForm):
 class EditPost(forms.Form):
     title = forms.CharField(max_length=255)
     body = forms.CharField(widget=forms.Textarea)
+
+class SearchForm(forms.Form):
+    query = forms.CharField()

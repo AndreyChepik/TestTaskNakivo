@@ -12,4 +12,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('add_post/', views.add_post, name='add_post'),
     re_path(r'edit_post/(?P<post_id>[0-9])/', views.edit_post, name='edit_post'),
+    path('search/', views.post_search, name='post_search'),
 ]

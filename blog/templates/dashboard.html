@@ -6,6 +6,9 @@
     <div id="postadd" style="text-align:right;">
         <a href="{% url 'add_post' %}"><input type="button" value="add post"></a>
     </div>
+    <div id="search" style="text-align:right;">
+        <a href="{% url 'post_search' %}"><input type="button" value="Search"></a>
+    </div>
     <h1>Dashboard</h1>
     <p>Welcome to your dashboard.</p>
     {% for post in posts %}
