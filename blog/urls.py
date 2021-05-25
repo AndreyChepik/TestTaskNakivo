@@ -9,4 +9,6 @@ urlpatterns = [
     path('<slug:slug>/<int:id>', views.detail_view, name='post_detail'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('register/', views.register, name='register'),
+    path('add_post/', views.add_post, name='add_post'),
 ]

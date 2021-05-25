@@ -7,7 +7,7 @@ from django.urls import reverse
 # two models: Post and User (built-in)
 class Post(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=id)
+    slug = models.SlugField(max_length=255, default=title, unique=id)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now())
@@ -19,4 +19,4 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[self.slug, self.id])
+        return reverse('post_detail', args=[self.slug, self.id])
