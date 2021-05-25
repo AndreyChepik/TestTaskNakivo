@@ -3,6 +3,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 
+# here are all urls used in project
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     path('about', views.about),

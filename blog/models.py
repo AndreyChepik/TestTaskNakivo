@@ -6,6 +6,8 @@ from django.urls import reverse
 
 # two models: Post and User (built-in)
 class Post(models.Model):
+    """This is Post model. It stores posts and authors are User models instances.
+    Foreign key connects User and Post tables"""
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, default=title, unique=id)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -19,4 +21,5 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        """Function for redirecting to post detail view"""
         return reverse('post_detail', args=[self.slug, self.id])

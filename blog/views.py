@@ -1,33 +1,31 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Post
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegistrationForm, AddPost, EditPost, SearchForm
+from .forms import UserRegistrationForm, AddPost, EditPost, SearchForm
 from django.utils import timezone
 from django.contrib.postgres.search import SearchVector
 
 
 def detail_view(request, slug, id):
+    """This view redirects user to post details"""
     post = get_object_or_404(Post, slug=slug, id=id)
     return render(request, 'detail.html', {'post': post})
 
 
-def main_page(request):
-    pass
-
-
 def about(request):
+    """This is about page"""
     return render(request, 'about.html')
 
 
-# @login_required
 def dashboard(request):
+    """This is main page"""
     posts = Post.objects.all()
     return render(request, 'dashboard.html', {'section': 'dashboard', 'posts': posts})
 
 
 def register(request):
+    """This view is for user registration"""
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
@@ -48,6 +46,7 @@ def register(request):
 
 @login_required
 def add_post(request):
+    """This view is for adding posts (if user is authenticated)"""
     if request.method == 'POST':
         form = AddPost(request.POST)
         if form.is_valid():
@@ -62,6 +61,7 @@ def add_post(request):
 
 @login_required
 def edit_post(request, post_id):
+    """This views lets users to edit their posts"""
     try:
         post = get_object_or_404(Post, id=post_id)
     except BaseException:
@@ -81,7 +81,12 @@ def edit_post(request, post_id):
     else:
         return render(request, 'edit_post.html', {'form': EditPost})
 
+
 def post_search(request):
+    """
+        This view is for searching post via query-word.
+        Returns posts with query_word in body or in title
+    """
     form = SearchForm
     query = None
     results = []
